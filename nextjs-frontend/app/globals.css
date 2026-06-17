@@ -1,0 +1,132 @@
+@import "@clerk/ui/themes/shadcn.css";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* FlashBook — boutique, bright, clean. shadcn token names preserved so all
+       existing ui/* components keep working; brand tokens added on top. */
+    --background: 40 33% 98%; /* warm paper white */
+    --foreground: 240 12% 10%; /* ink */
+    --card: 0 0% 100%;
+    --card-foreground: 240 12% 10%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 12% 10%;
+    --primary: 240 12% 12%; /* near-black ink */
+    --primary-foreground: 40 33% 98%;
+    --secondary: 40 24% 94%;
+    --secondary-foreground: 240 12% 12%;
+    --muted: 40 20% 95%;
+    --muted-foreground: 240 6% 42%;
+    --accent: 40 24% 94%;
+    --accent-foreground: 240 12% 12%;
+    --destructive: 0 72% 56%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 38 14% 85%;
+    --input: 30 10% 72%;
+    --ring: 343 81% 62%;
+
+    /* Brand / flash accents (customizable per artist) */
+    --brand: 343 81% 62%; /* coral-pink flash */
+    --brand-foreground: 0 0% 100%;
+    --brand-soft: 343 90% 96%;
+    --accent-2: 262 70% 62%; /* electric violet */
+    --accent-3: 168 64% 44%; /* jade */
+
+    --chart-1: 343 81% 62%;
+    --chart-2: 262 70% 62%;
+    --chart-3: 168 64% 44%;
+    --chart-4: 35 92% 60%;
+    --chart-5: 210 80% 56%;
+
+    --radius: 0.9rem; /* boutique rounded */
+    --button-radius: var(--radius); /* toggled to 0 for "sharp" */
+
+    --font-display: var(--font-fraunces, Georgia), Georgia, serif;
+    --font-body: var(--font-geist-sans, system-ui), system-ui, sans-serif;
+
+    /* Page surface (overridable by per-artist theme injection) */
+    --page-bg: hsl(var(--background));
+  }
+
+  .dark {
+    --background: 240 12% 8%;
+    --foreground: 40 33% 96%;
+    --card: 240 12% 11%;
+    --card-foreground: 40 33% 96%;
+    --popover: 240 12% 11%;
+    --popover-foreground: 40 33% 96%;
+    --primary: 40 33% 96%;
+    --primary-foreground: 240 12% 12%;
+    --secondary: 240 8% 18%;
+    --secondary-foreground: 40 33% 96%;
+    --muted: 240 8% 18%;
+    --muted-foreground: 240 6% 65%;
+    --accent: 240 8% 18%;
+    --accent-foreground: 40 33% 96%;
+    --destructive: 0 62% 45%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 240 8% 20%;
+    --input: 240 8% 20%;
+    --ring: 343 81% 62%;
+    --brand-soft: 343 40% 20%;
+  }
+
+  /* Button shape toggle driven by the theme editor */
+  [data-button-shape="sharp"] {
+    --button-radius: 0px;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: var(--font-body);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1,
+  h2,
+  h3,
+  .font-display {
+    font-family: var(--font-display);
+  }
+
+  /* Always-visible focus ring for accessibility (WCAG 2.4.7) */
+  :focus-visible {
+    outline: 2px solid hsl(var(--ring));
+    outline-offset: 2px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.001ms !important;
+      transition-duration: 0.001ms !important;
+    }
+  }
+}
+
+@layer components {
+  .fb-card {
+    @apply rounded-[var(--radius)] border bg-card shadow-sm;
+  }
+}
+
+/* Keep Clerk popovers & modals above FlashBook chrome (sticky header z-30,
+   report-issue FAB z-40, dialogs z-50). Outside @layer so it wins. */
+.cl-userButtonPopoverRootBox,
+.cl-userButtonPopoverCard,
+.cl-userButtonPopover,
+.cl-popoverBox,
+.cl-modalBackdrop,
+.cl-modalContent,
+.cl-modal {
+  z-index: 70 !important;
+}
