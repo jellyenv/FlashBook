@@ -16,12 +16,16 @@ router = APIRouter()
 
 async def _owned(db: AsyncSession, piece_id: UUID, artist_id) -> FlashPiece:
     piece = (
-        await db.execute(
-            select(FlashPiece).where(
-                FlashPiece.id == piece_id, FlashPiece.artist_id == artist_id
+        (
+            await db.execute(
+                select(FlashPiece).where(
+                    FlashPiece.id == piece_id, FlashPiece.artist_id == artist_id
+                )
             )
         )
-    ).scalars().first()
+        .scalars()
+        .first()
+    )
     if piece is None:
         raise HTTPException(status_code=404, detail="Flash piece not found.")
     return piece

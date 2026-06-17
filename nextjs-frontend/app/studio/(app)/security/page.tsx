@@ -6,7 +6,8 @@ export default function SecurityPage() {
       <div>
         <h1 className="font-display text-3xl">Security & account</h1>
         <p className="text-muted-foreground">
-          Manage your password, two-factor authentication, and connected accounts.
+          Manage your password, two-factor authentication, and connected
+          accounts.
         </p>
       </div>
       <div className="flex justify-center">

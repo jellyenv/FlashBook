@@ -8,8 +8,8 @@ export default async function FlashPage() {
       <div>
         <h1 className="font-display text-3xl">Flash editor</h1>
         <p className="text-muted-foreground">
-          Post available flash with price &amp; size ranges, mark pieces claimed, or
-          invite a consult with &ldquo;Ask about this piece.&rdquo;
+          Post available flash with price &amp; size ranges, mark pieces
+          claimed, or invite a consult with &ldquo;Ask about this piece.&rdquo;
         </p>
       </div>
       <FlashManager pieces={pieces} />

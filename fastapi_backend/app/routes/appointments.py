@@ -29,22 +29,30 @@ async def _find_or_create_contact(
     contact = None
     if payload.client_email:
         contact = (
-            await db.execute(
-                select(Contact).where(
-                    Contact.artist_id == artist_id,
-                    Contact.email == payload.client_email,
+            (
+                await db.execute(
+                    select(Contact).where(
+                        Contact.artist_id == artist_id,
+                        Contact.email == payload.client_email,
+                    )
                 )
             )
-        ).scalars().first()
+            .scalars()
+            .first()
+        )
     if contact is None and payload.client_phone:
         contact = (
-            await db.execute(
-                select(Contact).where(
-                    Contact.artist_id == artist_id,
-                    Contact.phone == payload.client_phone,
+            (
+                await db.execute(
+                    select(Contact).where(
+                        Contact.artist_id == artist_id,
+                        Contact.phone == payload.client_phone,
+                    )
                 )
             )
-        ).scalars().first()
+            .scalars()
+            .first()
+        )
     if contact is None:
         contact = Contact(
             artist_id=artist_id,
@@ -180,13 +188,17 @@ async def _owned_appointment(
     db: AsyncSession, appointment_id: UUID, artist_id: UUID
 ) -> Appointment:
     appt = (
-        await db.execute(
-            select(Appointment).where(
-                Appointment.id == appointment_id,
-                Appointment.artist_id == artist_id,
+        (
+            await db.execute(
+                select(Appointment).where(
+                    Appointment.id == appointment_id,
+                    Appointment.artist_id == artist_id,
+                )
             )
         )
-    ).scalars().first()
+        .scalars()
+        .first()
+    )
     if appt is None:
         raise HTTPException(status_code=404, detail="Appointment not found.")
     return appt

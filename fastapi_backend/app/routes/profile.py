@@ -20,10 +20,14 @@ router = APIRouter()
 
 async def _profile(db: AsyncSession, artist_id) -> ArtistProfile:
     profile = (
-        await db.execute(
-            select(ArtistProfile).where(ArtistProfile.user_id == artist_id)
+        (
+            await db.execute(
+                select(ArtistProfile).where(ArtistProfile.user_id == artist_id)
+            )
         )
-    ).scalars().first()
+        .scalars()
+        .first()
+    )
     if profile is None:
         raise HTTPException(status_code=404, detail="Artist profile not found.")
     return profile
@@ -53,14 +57,16 @@ async def update_my_profile(
 
 async def _get_or_create_theme(db: AsyncSession, owner_id) -> ThemeSettings:
     theme = (
-        await db.execute(
-            select(ThemeSettings).where(ThemeSettings.owner_id == owner_id)
+        (
+            await db.execute(
+                select(ThemeSettings).where(ThemeSettings.owner_id == owner_id)
+            )
         )
-    ).scalars().first()
+        .scalars()
+        .first()
+    )
     if theme is None:
-        theme = ThemeSettings(
-            owner_id=owner_id, button_shape=ButtonShape.rounded.value
-        )
+        theme = ThemeSettings(owner_id=owner_id, button_shape=ButtonShape.rounded.value)
         db.add(theme)
         await db.commit()
         await db.refresh(theme)

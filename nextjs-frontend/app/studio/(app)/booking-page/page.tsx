@@ -10,14 +10,15 @@ import {
 } from "@/lib/studio-data";
 
 export default async function BookingPageEditorPage() {
-  const [layout, profile, theme, portfolio, flash, products] = await Promise.all([
-    fetchBookingLayout(),
-    fetchMyProfile(),
-    fetchTheme(),
-    fetchPortfolio(),
-    fetchFlash(),
-    fetchProducts(),
-  ]);
+  const [layout, profile, theme, portfolio, flash, products] =
+    await Promise.all([
+      fetchBookingLayout(),
+      fetchMyProfile(),
+      fetchTheme(),
+      fetchPortfolio(),
+      fetchFlash(),
+      fetchProducts(),
+    ]);
   const slug = profile?.slug ?? "";
   const availability = slug ? await fetchAvailabilityPreview(slug) : [];
 
@@ -26,7 +27,8 @@ export default async function BookingPageEditorPage() {
       <div>
         <h1 className="font-display text-3xl">Booking page editor</h1>
         <p className="text-muted-foreground">
-          Edit your live page — drag sections, change colors &amp; text, then publish.
+          Edit your live page — drag sections, change colors &amp; text, then
+          publish.
         </p>
       </div>
       <BookingPageEditor

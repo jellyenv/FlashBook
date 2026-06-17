@@ -44,7 +44,9 @@ export function BookingFlow({
   const [day, setDay] = useState<DayAvailability | null>(
     availability.find((d) => d.slots.length > 0) ?? null,
   );
-  const [slot, setSlot] = useState<{ start_at: string; end_at: string } | null>(null);
+  const [slot, setSlot] = useState<{ start_at: string; end_at: string } | null>(
+    null,
+  );
   const [done, setDone] = useState<{ message: string } | null>(null);
   const [form, setForm] = useState({
     client_name: "",
@@ -89,7 +91,8 @@ export function BookingFlow({
     if (!form.client_name || !form.client_email || !form.client_phone) {
       return void toast.error("Name, email, and phone are required.");
     }
-    if (!form.age_confirmed) return void toast.error("Please confirm you are 18 or older.");
+    if (!form.age_confirmed)
+      return void toast.error("Please confirm you are 18 or older.");
     if (testMode) {
       setDone({
         message:
@@ -122,7 +125,9 @@ export function BookingFlow({
   return (
     <Card className="fb-card">
       <CardHeader>
-        <CardTitle className="font-display text-2xl">Book your session</CardTitle>
+        <CardTitle className="font-display text-2xl">
+          Book your session
+        </CardTitle>
         <CardDescription>
           Pick a day and time, then tell us about your piece.
         </CardDescription>
@@ -150,7 +155,9 @@ export function BookingFlow({
                     selected && "border-brand bg-brand-soft text-brand",
                   )}
                 >
-                  <span className="uppercase">{format(parseISO(d.date), "EEE")}</span>
+                  <span className="uppercase">
+                    {format(parseISO(d.date), "EEE")}
+                  </span>
                   <span className="text-base font-semibold">
                     {format(parseISO(d.date), "d")}
                   </span>
@@ -168,14 +175,18 @@ export function BookingFlow({
           <div>
             <Label className="mb-2 block">Available times</Label>
             {day.slots.length === 0 ? (
-              <p className="text-sm text-muted-foreground">No times available this day.</p>
+              <p className="text-sm text-muted-foreground">
+                No times available this day.
+              </p>
             ) : (
               <div className="flex flex-wrap gap-2">
                 {day.slots.map((s) => (
                   <Button
                     key={s.start_at}
                     type="button"
-                    variant={slot?.start_at === s.start_at ? "brand" : "outline"}
+                    variant={
+                      slot?.start_at === s.start_at ? "brand" : "outline"
+                    }
                     size="sm"
                     onClick={() => setSlot(s)}
                   >
@@ -198,23 +209,50 @@ export function BookingFlow({
             <div className="grid gap-3 sm:grid-cols-2">
               <div className="sm:col-span-2">
                 <Label htmlFor="name">Full name *</Label>
-                <Input id="name" value={form.client_name} onChange={(e) => set("client_name", e.target.value)} required />
+                <Input
+                  id="name"
+                  value={form.client_name}
+                  onChange={(e) => set("client_name", e.target.value)}
+                  required
+                />
               </div>
               <div>
                 <Label htmlFor="email">Email *</Label>
-                <Input id="email" type="email" value={form.client_email} onChange={(e) => set("client_email", e.target.value)} required />
+                <Input
+                  id="email"
+                  type="email"
+                  value={form.client_email}
+                  onChange={(e) => set("client_email", e.target.value)}
+                  required
+                />
               </div>
               <div>
                 <Label htmlFor="phone">Phone *</Label>
-                <Input id="phone" type="tel" value={form.client_phone} onChange={(e) => set("client_phone", e.target.value)} required />
+                <Input
+                  id="phone"
+                  type="tel"
+                  value={form.client_phone}
+                  onChange={(e) => set("client_phone", e.target.value)}
+                  required
+                />
               </div>
               <div>
                 <Label htmlFor="size">Size</Label>
-                <Input id="size" value={form.size} onChange={(e) => set("size", e.target.value)} placeholder='e.g. 4"' />
+                <Input
+                  id="size"
+                  value={form.size}
+                  onChange={(e) => set("size", e.target.value)}
+                  placeholder='e.g. 4"'
+                />
               </div>
               <div>
                 <Label htmlFor="place">Placement</Label>
-                <Input id="place" value={form.placement} onChange={(e) => set("placement", e.target.value)} placeholder="forearm" />
+                <Input
+                  id="place"
+                  value={form.placement}
+                  onChange={(e) => set("placement", e.target.value)}
+                  placeholder="forearm"
+                />
               </div>
               <div className="sm:col-span-2">
                 <Label htmlFor="color">Color or black &amp; grey</Label>
@@ -230,15 +268,31 @@ export function BookingFlow({
               </div>
               <div className="sm:col-span-2">
                 <Label htmlFor="subject">Describe your idea</Label>
-                <Textarea id="subject" value={form.subject} onChange={(e) => set("subject", e.target.value)} />
+                <Textarea
+                  id="subject"
+                  value={form.subject}
+                  onChange={(e) => set("subject", e.target.value)}
+                />
               </div>
               <div className="sm:col-span-2">
-                <Label htmlFor="acc">Any accommodations or notes? (accessibility welcome)</Label>
-                <Textarea id="acc" value={form.accommodations_notes} onChange={(e) => set("accommodations_notes", e.target.value)} />
+                <Label htmlFor="acc">
+                  Any accommodations or notes? (accessibility welcome)
+                </Label>
+                <Textarea
+                  id="acc"
+                  value={form.accommodations_notes}
+                  onChange={(e) => set("accommodations_notes", e.target.value)}
+                />
               </div>
               <div className="sm:col-span-2 flex items-center justify-between rounded-md border p-3">
-                <Label htmlFor="guests">Do you plan on having guests during your session?</Label>
-                <Switch id="guests" checked={form.has_guests} onCheckedChange={(v) => set("has_guests", v)} />
+                <Label htmlFor="guests">
+                  Do you plan on having guests during your session?
+                </Label>
+                <Switch
+                  id="guests"
+                  checked={form.has_guests}
+                  onCheckedChange={(v) => set("has_guests", v)}
+                />
               </div>
               {form.has_guests && (
                 <div className="sm:col-span-2">
@@ -255,12 +309,16 @@ export function BookingFlow({
             {/* Card on file (Phase 1 placeholder for the deposit hold) */}
             <div className="rounded-[var(--radius)] border bg-muted/40 p-4">
               <div className="mb-2 flex items-center gap-2 text-sm font-medium">
-                <CreditCard className="h-4 w-4" /> Card on file · ${(depositCents / 100).toFixed(2)} deposit
+                <CreditCard className="h-4 w-4" /> Card on file · $
+                {(depositCents / 100).toFixed(2)} deposit
               </div>
-              <Input disabled placeholder="•••• •••• •••• ••••  (secure card capture)" />
+              <Input
+                disabled
+                placeholder="•••• •••• •••• ••••  (secure card capture)"
+              />
               <p className="mt-2 flex items-center gap-1 text-xs text-muted-foreground">
-                <Lock className="h-3 w-3" /> Encrypted card capture via Stripe activates with
-                payments. You won&apos;t be charged now.
+                <Lock className="h-3 w-3" /> Encrypted card capture via Stripe
+                activates with payments. You won&apos;t be charged now.
               </p>
               <label className="mt-3 flex items-start gap-2 text-sm">
                 <input
@@ -269,7 +327,8 @@ export function BookingFlow({
                   onChange={(e) => set("card_ack", e.target.checked)}
                   className="mt-1"
                 />
-                I authorize a ${(depositCents / 100).toFixed(2)} deposit hold for this booking.
+                I authorize a ${(depositCents / 100).toFixed(2)} deposit hold
+                for this booking.
               </label>
             </div>
 
@@ -299,7 +358,8 @@ export function BookingFlow({
             </Button>
             {reviewFirst && (
               <p className="text-center text-xs text-muted-foreground">
-                Your request will be reviewed by the artist before it&apos;s confirmed.
+                Your request will be reviewed by the artist before it&apos;s
+                confirmed.
               </p>
             )}
           </div>

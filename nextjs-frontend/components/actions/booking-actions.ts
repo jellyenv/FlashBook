@@ -47,7 +47,9 @@ export async function submitCheckoutAction(slug: string, input: CheckoutInput) {
     const { data, error } = await checkout({ path: { slug }, body: input });
     if (error || !data) {
       const detail = (error as { detail?: unknown })?.detail;
-      return { error: typeof detail === "string" ? detail : "Checkout failed." };
+      return {
+        error: typeof detail === "string" ? detail : "Checkout failed.",
+      };
     }
     return {
       order_id: data.order_id,

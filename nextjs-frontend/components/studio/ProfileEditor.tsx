@@ -45,7 +45,13 @@ type Theme = {
   font?: string | null;
 } | null;
 
-export function ProfileEditor({ profile, theme }: { profile: Profile; theme: Theme }) {
+export function ProfileEditor({
+  profile,
+  theme,
+}: {
+  profile: Profile;
+  theme: Theme;
+}) {
   const [pending, start] = useTransition();
   const [p, setP] = useState({
     display_name: profile.display_name,
@@ -109,59 +115,121 @@ export function ProfileEditor({ profile, theme }: { profile: Profile; theme: The
       <Card className="fb-card">
         <CardHeader>
           <CardTitle className="font-display">Details & policy</CardTitle>
-          <CardDescription>What clients see and how booking works</CardDescription>
+          <CardDescription>
+            What clients see and how booking works
+          </CardDescription>
         </CardHeader>
         <CardContent className="space-y-3">
           <div>
             <Label htmlFor="dn">Display name</Label>
-            <Input id="dn" value={p.display_name} onChange={(e) => setP({ ...p, display_name: e.target.value })} />
+            <Input
+              id="dn"
+              value={p.display_name}
+              onChange={(e) => setP({ ...p, display_name: e.target.value })}
+            />
           </div>
           <div>
             <Label htmlFor="bn">Business name</Label>
-            <Input id="bn" value={p.business_name} onChange={(e) => setP({ ...p, business_name: e.target.value })} />
+            <Input
+              id="bn"
+              value={p.business_name}
+              onChange={(e) => setP({ ...p, business_name: e.target.value })}
+            />
           </div>
           <div>
             <Label htmlFor="bio">Bio</Label>
-            <Textarea id="bio" value={p.bio} onChange={(e) => setP({ ...p, bio: e.target.value })} />
+            <Textarea
+              id="bio"
+              value={p.bio}
+              onChange={(e) => setP({ ...p, bio: e.target.value })}
+            />
           </div>
           <div className="grid grid-cols-2 gap-3">
             <div>
               <Label htmlFor="loc">Location</Label>
-              <Input id="loc" value={p.location} onChange={(e) => setP({ ...p, location: e.target.value })} />
+              <Input
+                id="loc"
+                value={p.location}
+                onChange={(e) => setP({ ...p, location: e.target.value })}
+              />
             </div>
             <div>
               <Label htmlFor="igh">Instagram handle</Label>
-              <Input id="igh" value={p.instagram_handle} onChange={(e) => setP({ ...p, instagram_handle: e.target.value })} placeholder="@you" />
+              <Input
+                id="igh"
+                value={p.instagram_handle}
+                onChange={(e) =>
+                  setP({ ...p, instagram_handle: e.target.value })
+                }
+                placeholder="@you"
+              />
             </div>
           </div>
           <div>
             <Label htmlFor="igu">Instagram URL</Label>
-            <Input id="igu" value={p.instagram_url} onChange={(e) => setP({ ...p, instagram_url: e.target.value })} placeholder="https://instagram.com/you" />
+            <Input
+              id="igu"
+              value={p.instagram_url}
+              onChange={(e) => setP({ ...p, instagram_url: e.target.value })}
+              placeholder="https://instagram.com/you"
+            />
           </div>
           <div className="grid grid-cols-2 gap-3">
             <div>
               <Label htmlFor="dep">Default deposit ($)</Label>
-              <Input id="dep" type="number" min={0} step="0.01" value={p.deposit} onChange={(e) => setP({ ...p, deposit: e.target.value })} />
+              <Input
+                id="dep"
+                type="number"
+                min={0}
+                step="0.01"
+                value={p.deposit}
+                onChange={(e) => setP({ ...p, deposit: e.target.value })}
+              />
             </div>
             <div>
               <Label htmlFor="slot">Default slot (mins)</Label>
-              <Input id="slot" type="number" min={15} step={15} value={p.default_slot_minutes} onChange={(e) => setP({ ...p, default_slot_minutes: Number(e.target.value) })} />
+              <Input
+                id="slot"
+                type="number"
+                min={15}
+                step={15}
+                value={p.default_slot_minutes}
+                onChange={(e) =>
+                  setP({ ...p, default_slot_minutes: Number(e.target.value) })
+                }
+              />
             </div>
           </div>
           <div className="flex items-center justify-between rounded-md border p-3">
             <div>
               <Label htmlFor="rev">Review requests before confirming</Label>
               <p className="text-xs text-muted-foreground">
-                Clients see &ldquo;request is being reviewed&rdquo; until you approve.
+                Clients see &ldquo;request is being reviewed&rdquo; until you
+                approve.
               </p>
             </div>
-            <Switch id="rev" checked={p.require_review_before_confirm} onCheckedChange={(v) => setP({ ...p, require_review_before_confirm: v })} />
+            <Switch
+              id="rev"
+              checked={p.require_review_before_confirm}
+              onCheckedChange={(v) =>
+                setP({ ...p, require_review_before_confirm: v })
+              }
+            />
           </div>
           <div className="flex items-center justify-between rounded-md border p-3">
             <Label htmlFor="acc">Accepting bookings</Label>
-            <Switch id="acc" checked={p.accepting_bookings} onCheckedChange={(v) => setP({ ...p, accepting_bookings: v })} />
+            <Switch
+              id="acc"
+              checked={p.accepting_bookings}
+              onCheckedChange={(v) => setP({ ...p, accepting_bookings: v })}
+            />
           </div>
-          <Button variant="brand" className="w-full" onClick={saveProfile} disabled={pending}>
+          <Button
+            variant="brand"
+            className="w-full"
+            onClick={saveProfile}
+            disabled={pending}
+          >
             Save profile
           </Button>
         </CardContent>
@@ -184,7 +252,9 @@ export function ProfileEditor({ profile, theme }: { profile: Profile; theme: The
                   aria-label={pal.name}
                   className={cn(
                     "h-8 w-8 rounded-full border-2",
-                    brand === pal.brand ? "border-foreground" : "border-transparent",
+                    brand === pal.brand
+                      ? "border-foreground"
+                      : "border-transparent",
                   )}
                   style={{ background: `hsl(${pal.brand})` }}
                 />
@@ -192,8 +262,8 @@ export function ProfileEditor({ profile, theme }: { profile: Profile; theme: The
             </div>
             {!contrastOk && (
               <p className="mt-2 flex items-center gap-1 text-xs text-amber-600">
-                <AlertTriangle className="h-3 w-3" /> White text on this color may fail
-                WCAG AA contrast.
+                <AlertTriangle className="h-3 w-3" /> White text on this color
+                may fail WCAG AA contrast.
               </p>
             )}
           </div>
@@ -234,7 +304,12 @@ export function ProfileEditor({ profile, theme }: { profile: Profile; theme: The
 
           <div>
             <Label htmlFor="bg">Background color (CSS, optional)</Label>
-            <Input id="bg" value={bg} onChange={(e) => setBg(e.target.value)} placeholder="#fdf6f8 or hsl(...)" />
+            <Input
+              id="bg"
+              value={bg}
+              onChange={(e) => setBg(e.target.value)}
+              placeholder="#fdf6f8 or hsl(...)"
+            />
           </div>
 
           <div className="space-y-2">
@@ -277,7 +352,12 @@ export function ProfileEditor({ profile, theme }: { profile: Profile; theme: The
             </Button>
           </div>
 
-          <Button variant="brand" className="w-full" onClick={saveTheme} disabled={pending}>
+          <Button
+            variant="brand"
+            className="w-full"
+            onClick={saveTheme}
+            disabled={pending}
+          >
             Save theme
           </Button>
         </CardContent>

@@ -65,7 +65,8 @@ export function NewAppointmentDialog({
   const set = (k: string, v: unknown) => setForm((f) => ({ ...f, [k]: v }));
 
   function submit() {
-    if (!form.client_name.trim()) return void toast.error("Client name is required.");
+    if (!form.client_name.trim())
+      return void toast.error("Client name is required.");
     const startAt = new Date(`${form.date}T${form.time}`);
     const endAt = new Date(startAt.getTime() + form.duration * 60000);
     start(async () => {
@@ -103,7 +104,9 @@ export function NewAppointmentDialog({
 
         <div className="space-y-4">
           <fieldset className="space-y-3">
-            <legend className="text-sm font-medium text-muted-foreground">Client</legend>
+            <legend className="text-sm font-medium text-muted-foreground">
+              Client
+            </legend>
             <div>
               <Label htmlFor="cn">Name *</Label>
               <Input
@@ -144,7 +147,9 @@ export function NewAppointmentDialog({
           </fieldset>
 
           <fieldset className="space-y-3">
-            <legend className="text-sm font-medium text-muted-foreground">Schedule</legend>
+            <legend className="text-sm font-medium text-muted-foreground">
+              Schedule
+            </legend>
             <div className="grid grid-cols-3 gap-3">
               <div>
                 <Label htmlFor="d">Date</Label>
@@ -179,7 +184,9 @@ export function NewAppointmentDialog({
           </fieldset>
 
           <fieldset className="space-y-3">
-            <legend className="text-sm font-medium text-muted-foreground">Tattoo</legend>
+            <legend className="text-sm font-medium text-muted-foreground">
+              Tattoo
+            </legend>
             <div className="grid grid-cols-2 gap-3">
               <div>
                 <Label htmlFor="sz">Size</Label>
@@ -235,7 +242,9 @@ export function NewAppointmentDialog({
           </fieldset>
 
           <fieldset className="space-y-3">
-            <legend className="text-sm font-medium text-muted-foreground">Notes</legend>
+            <legend className="text-sm font-medium text-muted-foreground">
+              Notes
+            </legend>
             <div>
               <Label htmlFor="acc">Accommodations / notes</Label>
               <Textarea
@@ -292,12 +301,14 @@ export function AppointmentDetailDialog({
   ) =>
     start(async () => {
       const res = await fn();
-      if (res && "error" in res && res.error) return void toast.error(res.error);
+      if (res && "error" in res && res.error)
+        return void toast.error(res.error);
       toast.success(successMsg);
       onOpenChange(false);
     });
 
-  const isPending = appt.status === "under_review" || appt.status === "requested";
+  const isPending =
+    appt.status === "under_review" || appt.status === "requested";
 
   return (
     <Dialog open={!!appt} onOpenChange={onOpenChange}>
@@ -320,11 +331,18 @@ export function AppointmentDetailDialog({
             <Field label="Color" value={appt.color_type.replace("_", " ")} />
           )}
           {typeof appt.deposit_cents === "number" && appt.deposit_cents > 0 && (
-            <Field label="Deposit" value={`$${(appt.deposit_cents / 100).toFixed(2)}`} />
+            <Field
+              label="Deposit"
+              value={`$${(appt.deposit_cents / 100).toFixed(2)}`}
+            />
           )}
           {appt.has_guests && <Field label="Guests" value="Yes" />}
           {appt.accommodations_notes && (
-            <Field label="Accommodations" value={appt.accommodations_notes} full />
+            <Field
+              label="Accommodations"
+              value={appt.accommodations_notes}
+              full
+            />
           )}
         </dl>
 
@@ -375,7 +393,9 @@ export function AppointmentDetailDialog({
             variant="ghost"
             className="text-destructive"
             disabled={pending}
-            onClick={() => act(() => deleteAppointmentAction(appt.id), "Deleted")}
+            onClick={() =>
+              act(() => deleteAppointmentAction(appt.id), "Deleted")
+            }
           >
             Delete
           </Button>
@@ -396,7 +416,9 @@ function Field({
 }) {
   return (
     <div className={full ? "col-span-2" : ""}>
-      <dt className="text-xs uppercase tracking-wide text-muted-foreground">{label}</dt>
+      <dt className="text-xs uppercase tracking-wide text-muted-foreground">
+        {label}
+      </dt>
       <dd className="capitalize">{value}</dd>
     </div>
   );

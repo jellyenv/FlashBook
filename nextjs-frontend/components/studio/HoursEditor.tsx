@@ -198,7 +198,9 @@ export function HoursEditor({
 
       <Card className="fb-card">
         <CardHeader>
-          <CardTitle className="font-display">Custom days & blackouts</CardTitle>
+          <CardTitle className="font-display">
+            Custom days & blackouts
+          </CardTitle>
           <CardDescription>Override a specific date</CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">

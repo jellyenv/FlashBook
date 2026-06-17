@@ -27,8 +27,14 @@ class ClerkMe(BaseModel):
 
 async def _artist_slug(db: AsyncSession, user_id) -> str | None:
     profile = (
-        await db.execute(select(ArtistProfile).where(ArtistProfile.user_id == user_id))
-    ).scalars().first()
+        (
+            await db.execute(
+                select(ArtistProfile).where(ArtistProfile.user_id == user_id)
+            )
+        )
+        .scalars()
+        .first()
+    )
     return profile.slug if profile else None
 
 
@@ -57,8 +63,10 @@ async def clerk_sync(
     # Adopt a real email only while we still hold the placeholder and it's unused.
     if payload.email and user.email.endswith("@clerk.local"):
         existing = (
-            await db.execute(select(User).where(User.email == payload.email))
-        ).scalars().first()
+            (await db.execute(select(User).where(User.email == payload.email)))
+            .scalars()
+            .first()
+        )
         if existing is None:
             user.email = payload.email
             changed = True
@@ -67,12 +75,23 @@ async def clerk_sync(
         changed = True
 
     profile = (
-        await db.execute(select(ArtistProfile).where(ArtistProfile.user_id == user.id))
-    ).scalars().first()
-    if profile and payload.full_name and profile.display_name in (
-        None,
-        "",
-        user.email.split("@")[0],
+        (
+            await db.execute(
+                select(ArtistProfile).where(ArtistProfile.user_id == user.id)
+            )
+        )
+        .scalars()
+        .first()
+    )
+    if (
+        profile
+        and payload.full_name
+        and profile.display_name
+        in (
+            None,
+            "",
+            user.email.split("@")[0],
+        )
     ):
         profile.display_name = payload.full_name
         changed = True

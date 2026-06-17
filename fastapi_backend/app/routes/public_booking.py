@@ -42,30 +42,38 @@ router = APIRouter()
 
 async def _artist_by_slug(db: AsyncSession, slug: str) -> ArtistProfile:
     profile = (
-        await db.execute(select(ArtistProfile).where(ArtistProfile.slug == slug))
-    ).scalars().first()
+        (await db.execute(select(ArtistProfile).where(ArtistProfile.slug == slug)))
+        .scalars()
+        .first()
+    )
     if profile is None:
         raise HTTPException(status_code=404, detail="Artist not found.")
     return profile
 
 
 @router.get("/artists/{slug}", response_model=PublicArtistRead)
-async def get_public_artist(
-    slug: str, db: AsyncSession = Depends(get_async_session)
-):
+async def get_public_artist(slug: str, db: AsyncSession = Depends(get_async_session)):
     profile = await _artist_by_slug(db, slug)
     theme = (
-        await db.execute(
-            select(ThemeSettings).where(ThemeSettings.owner_id == profile.user_id)
-        )
-    ).scalars().first()
-    layout = (
-        await db.execute(
-            select(BookingPageLayout).where(
-                BookingPageLayout.artist_id == profile.user_id
+        (
+            await db.execute(
+                select(ThemeSettings).where(ThemeSettings.owner_id == profile.user_id)
             )
         )
-    ).scalars().first()
+        .scalars()
+        .first()
+    )
+    layout = (
+        (
+            await db.execute(
+                select(BookingPageLayout).where(
+                    BookingPageLayout.artist_id == profile.user_id
+                )
+            )
+        )
+        .scalars()
+        .first()
+    )
     banner = None
     modules = None
     if layout and layout.announcement_active:
@@ -101,9 +109,7 @@ async def get_public_portfolio(
 
 
 @router.get("/artists/{slug}/products", response_model=list[ProductRead])
-async def get_public_products(
-    slug: str, db: AsyncSession = Depends(get_async_session)
-):
+async def get_public_products(slug: str, db: AsyncSession = Depends(get_async_session)):
     profile = await _artist_by_slug(db, slug)
     result = await db.execute(
         select(Product)
@@ -131,14 +137,18 @@ async def checkout(
 
     ids = [i.product_id for i in payload.items]
     products = (
-        await db.execute(
-            select(Product).where(
-                Product.id.in_(ids),
-                Product.artist_id == profile.user_id,
-                Product.active.is_(True),
+        (
+            await db.execute(
+                select(Product).where(
+                    Product.id.in_(ids),
+                    Product.artist_id == profile.user_id,
+                    Product.active.is_(True),
+                )
             )
         )
-    ).scalars().all()
+        .scalars()
+        .all()
+    )
     by_id = {p.id: p for p in products}
 
     order = Order(
@@ -199,9 +209,7 @@ async def checkout(
 
 
 @router.get("/artists/{slug}/flash", response_model=list[FlashPieceRead])
-async def get_public_flash(
-    slug: str, db: AsyncSession = Depends(get_async_session)
-):
+async def get_public_flash(slug: str, db: AsyncSession = Depends(get_async_session)):
     profile = await _artist_by_slug(db, slug)
     result = await db.execute(
         select(FlashPiece)
@@ -234,7 +242,9 @@ async def book(
 ):
     profile = await _artist_by_slug(db, slug)
     if not profile.accepting_bookings:
-        raise HTTPException(status_code=400, detail="This artist isn't accepting bookings.")
+        raise HTTPException(
+            status_code=400, detail="This artist isn't accepting bookings."
+        )
     if not payload.age_confirmed:
         raise HTTPException(
             status_code=400,
@@ -250,13 +260,17 @@ async def book(
 
     # Link or create the contact in the artist's address book.
     contact = (
-        await db.execute(
-            select(Contact).where(
-                Contact.artist_id == profile.user_id,
-                Contact.email == payload.client_email,
+        (
+            await db.execute(
+                select(Contact).where(
+                    Contact.artist_id == profile.user_id,
+                    Contact.email == payload.client_email,
+                )
             )
         )
-    ).scalars().first()
+        .scalars()
+        .first()
+    )
     if contact is None:
         contact = Contact(
             artist_id=profile.user_id,

@@ -26,9 +26,18 @@ export const PRESET_PALETTES: { name: string; brand: string }[] = [
 ];
 
 export const FONT_OPTIONS: { name: string; stack: string }[] = [
-  { name: "Geist (clean sans)", stack: "var(--font-geist-sans), system-ui, sans-serif" },
-  { name: "Fraunces (boutique serif)", stack: "var(--font-fraunces), Georgia, serif" },
-  { name: "Georgia (classic serif)", stack: "Georgia, 'Times New Roman', serif" },
+  {
+    name: "Geist (clean sans)",
+    stack: "var(--font-geist-sans), system-ui, sans-serif",
+  },
+  {
+    name: "Fraunces (boutique serif)",
+    stack: "var(--font-fraunces), Georgia, serif",
+  },
+  {
+    name: "Georgia (classic serif)",
+    stack: "Georgia, 'Times New Roman', serif",
+  },
   { name: "System", stack: "system-ui, -apple-system, sans-serif" },
 ];
 
@@ -57,7 +66,9 @@ export function themeToStyle(theme: ThemeLike | null | undefined): {
 // --- WCAG contrast (for the theme editor's accessibility warning) ---
 
 function hslTripletToRgb(triplet: string): [number, number, number] | null {
-  const m = triplet.trim().match(/^(\d+(?:\.\d+)?)\s+(\d+(?:\.\d+)?)%\s+(\d+(?:\.\d+)?)%$/);
+  const m = triplet
+    .trim()
+    .match(/^(\d+(?:\.\d+)?)\s+(\d+(?:\.\d+)?)%\s+(\d+(?:\.\d+)?)%$/);
   if (!m) return null;
   const h = parseFloat(m[1]) / 360;
   const s = parseFloat(m[2]) / 100;

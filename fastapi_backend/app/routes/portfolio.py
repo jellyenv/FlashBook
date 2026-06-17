@@ -58,13 +58,17 @@ async def delete_portfolio_image(
     artist: User = Depends(get_clerk_user),
 ):
     image = (
-        await db.execute(
-            select(PortfolioImage).where(
-                PortfolioImage.id == image_id,
-                PortfolioImage.artist_id == artist.id,
+        (
+            await db.execute(
+                select(PortfolioImage).where(
+                    PortfolioImage.id == image_id,
+                    PortfolioImage.artist_id == artist.id,
+                )
             )
         )
-    ).scalars().first()
+        .scalars()
+        .first()
+    )
     if image is None:
         raise HTTPException(status_code=404, detail="Image not found.")
     await db.delete(image)

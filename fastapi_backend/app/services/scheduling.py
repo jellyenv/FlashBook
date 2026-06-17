@@ -29,7 +29,9 @@ ACTIVE_STATUSES = [
 ]
 
 
-async def _artist_profile(session: AsyncSession, artist_id: UUID) -> ArtistProfile | None:
+async def _artist_profile(
+    session: AsyncSession, artist_id: UUID
+) -> ArtistProfile | None:
     result = await session.execute(
         select(ArtistProfile).where(ArtistProfile.user_id == artist_id)
     )
@@ -74,13 +76,17 @@ async def available_slots(
 
     # Exception for the day wins over the weekly rule.
     exc = (
-        await session.execute(
-            select(AvailabilityException).where(
-                AvailabilityException.artist_id == artist_id,
-                AvailabilityException.date == target,
+        (
+            await session.execute(
+                select(AvailabilityException).where(
+                    AvailabilityException.artist_id == artist_id,
+                    AvailabilityException.date == target,
+                )
             )
         )
-    ).scalars().first()
+        .scalars()
+        .first()
+    )
 
     windows: list[tuple] = []  # (start_time, end_time, slot_minutes)
     if exc is not None:
@@ -90,14 +96,18 @@ async def available_slots(
             windows.append((exc.start_time, exc.end_time, profile.default_slot_minutes))
     else:
         rules = (
-            await session.execute(
-                select(AvailabilityRule).where(
-                    AvailabilityRule.artist_id == artist_id,
-                    AvailabilityRule.day_of_week == target.weekday(),
-                    AvailabilityRule.is_closed.is_(False),
+            (
+                await session.execute(
+                    select(AvailabilityRule).where(
+                        AvailabilityRule.artist_id == artist_id,
+                        AvailabilityRule.day_of_week == target.weekday(),
+                        AvailabilityRule.is_closed.is_(False),
+                    )
                 )
             )
-        ).scalars().all()
+            .scalars()
+            .all()
+        )
         for rule in rules:
             if rule.effective_from and target < rule.effective_from:
                 continue
@@ -144,10 +154,16 @@ async def has_conflict(
     artist_ids = [artist_id]
     if booth_id is not None:
         members = (
-            await session.execute(
-                select(BoothMember.artist_id).where(BoothMember.booth_id == booth_id)
+            (
+                await session.execute(
+                    select(BoothMember.artist_id).where(
+                        BoothMember.booth_id == booth_id
+                    )
+                )
             )
-        ).scalars().all()
+            .scalars()
+            .all()
+        )
         artist_ids = list({artist_id, *members})
 
     query = select(Appointment).where(

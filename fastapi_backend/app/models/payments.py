@@ -60,7 +60,9 @@ class Payment(TimestampMixin, Base):
     amount_cents = Column(Integer, nullable=False, default=0)
     kind = Column(str_enum(PaymentKind), nullable=False)
     method = Column(
-        str_enum(PaymentMethodType), nullable=False, default=PaymentMethodType.card.value
+        str_enum(PaymentMethodType),
+        nullable=False,
+        default=PaymentMethodType.card.value,
     )
     status = Column(
         str_enum(PaymentStatus), nullable=False, default=PaymentStatus.pending.value

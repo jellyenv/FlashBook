@@ -59,9 +59,7 @@ export function PortfolioManager({ images }: { images: PortfolioImage[] }) {
             />
           </div>
           <ImageUpload onUploaded={addImage} label="Upload portfolio image" />
-          {pending && (
-            <p className="text-xs text-muted-foreground">Saving…</p>
-          )}
+          {pending && <p className="text-xs text-muted-foreground">Saving…</p>}
         </CardContent>
       </Card>
 
@@ -87,7 +85,10 @@ export function PortfolioManager({ images }: { images: PortfolioImage[] }) {
                   aria-label="Delete image"
                   disabled={pending}
                   onClick={() =>
-                    start(async () => void (await deletePortfolioImageAction(img.id)))
+                    start(
+                      async () =>
+                        void (await deletePortfolioImageAction(img.id)),
+                    )
                   }
                   className="absolute right-2 top-2 rounded-full bg-background/90 p-1.5 text-destructive opacity-0 shadow transition-opacity group-hover:opacity-100 focus:opacity-100"
                 >

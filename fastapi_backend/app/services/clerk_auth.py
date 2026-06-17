@@ -75,8 +75,8 @@ async def _provision_user(db: AsyncSession, claims: dict) -> User:
         raise HTTPException(status_code=401, detail="Invalid token (no subject).")
 
     user = (
-        await db.execute(select(User).where(User.clerk_sub == sub))
-    ).scalars().first()
+        (await db.execute(select(User).where(User.clerk_sub == sub))).scalars().first()
+    )
     if user is not None:
         return user
 

@@ -38,15 +38,13 @@ import {
   updateProfileAction,
   updateThemeAction,
 } from "@/components/actions/studio-actions";
-import { BookingFlow, type DayAvailability } from "@/components/booking/BookingFlow";
+import {
+  BookingFlow,
+  type DayAvailability,
+} from "@/components/booking/BookingFlow";
 import { ImageUpload } from "@/components/studio/ImageUpload";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Dialog,
   DialogContent,
@@ -111,7 +109,12 @@ function SectionPreview({
     size_plus: boolean;
     ask_about: boolean;
   }[];
-  products: { id: string; title: string; price_cents: number; images?: string[] | null }[];
+  products: {
+    id: string;
+    title: string;
+    price_cents: number;
+    images?: string[] | null;
+  }[];
 }) {
   if (sectionKey === "book") {
     return (
@@ -196,17 +199,29 @@ function SectionPreview({
         <div className="grid grid-cols-3 gap-3">
           {real
             ? real.map((f) => (
-                <div key={f.id} className="overflow-hidden rounded-[var(--radius)] border bg-card">
+                <div
+                  key={f.id}
+                  className="overflow-hidden rounded-[var(--radius)] border bg-card"
+                >
                   {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={f.image_url} alt="" className="aspect-square w-full object-cover" />
+                  <img
+                    src={f.image_url}
+                    alt=""
+                    className="aspect-square w-full object-cover"
+                  />
                   <div className="p-1.5 text-xs">
                     {f.ask_about ? (
                       <span className="text-brand">Ask about this piece</span>
                     ) : (
                       <>
-                        <span className="font-medium">{formatFlashPrice(f) ?? "—"}</span>
+                        <span className="font-medium">
+                          {formatFlashPrice(f) ?? "—"}
+                        </span>
                         {formatFlashSize(f) && (
-                          <span className="text-muted-foreground"> · {formatFlashSize(f)}</span>
+                          <span className="text-muted-foreground">
+                            {" "}
+                            · {formatFlashSize(f)}
+                          </span>
                         )}
                       </>
                     )}
@@ -214,7 +229,10 @@ function SectionPreview({
                 </div>
               ))
             : Array.from({ length: 3 }).map((_, i) => (
-                <div key={i} className="overflow-hidden rounded-[var(--radius)] border bg-card">
+                <div
+                  key={i}
+                  className="overflow-hidden rounded-[var(--radius)] border bg-card"
+                >
                   <PlaceholderTile icon={Sparkles} />
                   <div className="p-1.5 text-xs">
                     <span className="font-medium">$120+</span>
@@ -241,15 +259,27 @@ function SectionPreview({
               img: p.images?.[0],
             }))
           : [
-              { id: "a", title: "Flash print — A4", price: "$25", img: undefined },
+              {
+                id: "a",
+                title: "Flash print — A4",
+                price: "$25",
+                img: undefined,
+              },
               { id: "b", title: "Sticker pack", price: "$8", img: undefined },
               { id: "c", title: "Studio tee", price: "$30", img: undefined },
             ]
         ).map((p) => (
-          <div key={p.id} className="overflow-hidden rounded-[var(--radius)] border bg-card">
+          <div
+            key={p.id}
+            className="overflow-hidden rounded-[var(--radius)] border bg-card"
+          >
             {p.img ? (
               // eslint-disable-next-line @next/next/no-img-element
-              <img src={p.img} alt="" className="aspect-square w-full object-cover" />
+              <img
+                src={p.img}
+                alt=""
+                className="aspect-square w-full object-cover"
+              />
             ) : (
               <PlaceholderTile icon={Store} />
             )}
@@ -278,8 +308,14 @@ function SortableSection({
   onToggle: () => void;
   children: React.ReactNode;
 }) {
-  const { attributes, listeners, setNodeRef, transform, transition, isDragging } =
-    useSortable({ id: module.key });
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({ id: module.key });
   return (
     <div
       ref={setNodeRef}
@@ -304,7 +340,11 @@ function SortableSection({
           aria-label={module.enabled ? "Hide section" : "Show section"}
           className="rounded-md border bg-background p-1 shadow"
         >
-          {module.enabled ? <Eye className="h-4 w-4" /> : <EyeOff className="h-4 w-4" />}
+          {module.enabled ? (
+            <Eye className="h-4 w-4" />
+          ) : (
+            <EyeOff className="h-4 w-4" />
+          )}
         </button>
       </div>
       <div className="rounded-[var(--radius)] transition-all group-hover:ring-2 group-hover:ring-brand/40 group-hover:ring-offset-2">
@@ -348,16 +388,14 @@ export function BookingPageEditor({
     background_image_url?: string | null;
     font?: string | null;
   } | null;
-  profile:
-    | {
-        display_name: string;
-        location?: string | null;
-        bio?: string | null;
-        instagram_url?: string | null;
-        deposit_default_cents: number;
-        require_review_before_confirm: boolean;
-      }
-    | null;
+  profile: {
+    display_name: string;
+    location?: string | null;
+    bio?: string | null;
+    instagram_url?: string | null;
+    deposit_default_cents: number;
+    require_review_before_confirm: boolean;
+  } | null;
   portfolio: { id: string; image_url: string }[];
   flash: React.ComponentProps<typeof SectionPreview>["flash"];
   products: React.ComponentProps<typeof SectionPreview>["products"];
@@ -368,7 +406,9 @@ export function BookingPageEditor({
     normalizeModules(layout?.draft ?? layout?.modules),
   );
   const [banner, setBanner] = useState(layout?.announcement_banner ?? "");
-  const [bannerActive, setBannerActive] = useState(layout?.announcement_active ?? false);
+  const [bannerActive, setBannerActive] = useState(
+    layout?.announcement_active ?? false,
+  );
   const [published, setPublished] = useState(layout?.published ?? false);
 
   const [brand, setBrand] = useState(theme?.palette?.brand ?? "343 81% 62%");
@@ -388,7 +428,9 @@ export function BookingPageEditor({
 
   const sensors = useSensors(
     useSensor(PointerSensor),
-    useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates }),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    }),
   );
 
   function onDragEnd(e: DragEndEvent) {
@@ -453,7 +495,11 @@ export function BookingPageEditor({
         <Button variant="brand" onClick={() => save(true)} disabled={pending}>
           <Rocket className="mr-2 h-4 w-4" /> Save &amp; publish
         </Button>
-        <Button variant="outline" onClick={() => save(false)} disabled={pending}>
+        <Button
+          variant="outline"
+          onClick={() => save(false)}
+          disabled={pending}
+        >
           <Save className="mr-2 h-4 w-4" /> Save draft
         </Button>
         <Button variant="outline" onClick={() => setTestOpen(true)}>
@@ -476,7 +522,9 @@ export function BookingPageEditor({
         <div className="space-y-4">
           <Card className="fb-card">
             <CardHeader className="pb-2">
-              <CardTitle className="font-display text-base">Look & feel</CardTitle>
+              <CardTitle className="font-display text-base">
+                Look & feel
+              </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               <div>
@@ -489,7 +537,9 @@ export function BookingPageEditor({
                       onClick={() => setBrand(p.brand)}
                       className={cn(
                         "h-7 w-7 rounded-full border-2",
-                        brand === p.brand ? "border-foreground" : "border-transparent",
+                        brand === p.brand
+                          ? "border-foreground"
+                          : "border-transparent",
                       )}
                       style={{ background: `hsl(${p.brand})` }}
                     />
@@ -539,7 +589,9 @@ export function BookingPageEditor({
 
           <Card className="fb-card">
             <CardHeader className="pb-2">
-              <CardTitle className="font-display text-base">Background</CardTitle>
+              <CardTitle className="font-display text-base">
+                Background
+              </CardTitle>
             </CardHeader>
             <CardContent className="space-y-3">
               <ImageUpload
@@ -565,39 +617,59 @@ export function BookingPageEditor({
 
           <Card className="fb-card">
             <CardHeader className="pb-2">
-              <CardTitle className="font-display text-base">Profile & text</CardTitle>
+              <CardTitle className="font-display text-base">
+                Profile & text
+              </CardTitle>
             </CardHeader>
             <CardContent className="space-y-3">
               <div>
                 <Label htmlFor="dn" className="text-xs">
                   Display name
                 </Label>
-                <Input id="dn" value={displayName} onChange={(e) => setDisplayName(e.target.value)} />
+                <Input
+                  id="dn"
+                  value={displayName}
+                  onChange={(e) => setDisplayName(e.target.value)}
+                />
               </div>
               <div>
                 <Label htmlFor="loc" className="text-xs">
                   Location
                 </Label>
-                <Input id="loc" value={location} onChange={(e) => setLocation(e.target.value)} />
+                <Input
+                  id="loc"
+                  value={location}
+                  onChange={(e) => setLocation(e.target.value)}
+                />
               </div>
               <div>
                 <Label htmlFor="bio" className="text-xs">
                   About / bio
                 </Label>
-                <Textarea id="bio" value={bio} onChange={(e) => setBio(e.target.value)} />
+                <Textarea
+                  id="bio"
+                  value={bio}
+                  onChange={(e) => setBio(e.target.value)}
+                />
               </div>
               <div>
                 <Label htmlFor="ig" className="text-xs">
                   Instagram URL
                 </Label>
-                <Input id="ig" value={instagram} onChange={(e) => setInstagram(e.target.value)} />
+                <Input
+                  id="ig"
+                  value={instagram}
+                  onChange={(e) => setInstagram(e.target.value)}
+                />
               </div>
             </CardContent>
           </Card>
 
           <Card className="fb-card">
             <CardHeader className="pb-2">
-              <CardTitle className="font-display text-base">Announcement</CardTitle>
+              <CardTitle className="font-display text-base">
+                Announcement
+              </CardTitle>
             </CardHeader>
             <CardContent className="space-y-2">
               <Textarea
@@ -609,7 +681,11 @@ export function BookingPageEditor({
                 <Label htmlFor="ba" className="text-xs">
                   Show banner
                 </Label>
-                <Switch id="ba" checked={bannerActive} onCheckedChange={setBannerActive} />
+                <Switch
+                  id="ba"
+                  checked={bannerActive}
+                  onCheckedChange={setBannerActive}
+                />
               </div>
             </CardContent>
           </Card>
@@ -639,8 +715,12 @@ export function BookingPageEditor({
             )}
             <div className="px-5 py-6">
               <div className="mb-8 text-center">
-                <h1 className="font-display text-3xl">{displayName || "Your name"}</h1>
-                {location && <p className="mt-1 text-muted-foreground">{location}</p>}
+                <h1 className="font-display text-3xl">
+                  {displayName || "Your name"}
+                </h1>
+                {location && (
+                  <p className="mt-1 text-muted-foreground">{location}</p>
+                )}
               </div>
               <DndContext
                 sensors={sensors}
@@ -681,7 +761,8 @@ export function BookingPageEditor({
           <DialogHeader>
             <DialogTitle>Simulated booking test</DialogTitle>
             <DialogDescription>
-              A dry-run with your real availability — nothing is actually booked.
+              A dry-run with your real availability — nothing is actually
+              booked.
             </DialogDescription>
           </DialogHeader>
           <BookingFlow

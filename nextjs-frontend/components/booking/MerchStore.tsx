@@ -50,7 +50,10 @@ export function MerchStore({
   const [stage, setStage] = useState<Stage>(null);
   const [loaded, setLoaded] = useState(false);
   const [submitting, setSubmitting] = useState(false);
-  const [confirmation, setConfirmation] = useState<{ total: number; message: string } | null>(null);
+  const [confirmation, setConfirmation] = useState<{
+    total: number;
+    message: string;
+  } | null>(null);
 
   const [form, setForm] = useState({
     customer_name: "",
@@ -121,7 +124,10 @@ export function MerchStore({
     }
     setSubmitting(true);
     const res = await submitCheckoutAction(slug, {
-      items: cart.map((c) => ({ product_id: c.productId, quantity: c.quantity })),
+      items: cart.map((c) => ({
+        product_id: c.productId,
+        quantity: c.quantity,
+      })),
       customer_name: form.customer_name,
       customer_email: form.customer_email,
       customer_phone: form.customer_phone || null,
@@ -229,7 +235,9 @@ export function MerchStore({
                       >
                         <Minus className="h-3 w-3" />
                       </button>
-                      <span className="w-5 text-center text-sm">{c.quantity}</span>
+                      <span className="w-5 text-center text-sm">
+                        {c.quantity}
+                      </span>
                       <button
                         aria-label="Increase"
                         onClick={() => setQty(c.productId, c.quantity + 1)}
@@ -344,15 +352,22 @@ export function MerchStore({
                   </label>
                 </div>
                 <p className="text-xs text-muted-foreground">
-                  Payment is arranged with the artist after your order is reviewed.
+                  Payment is arranged with the artist after your order is
+                  reviewed.
                 </p>
               </div>
               <DialogFooter className="!flex-col gap-2 sm:!flex-row">
                 <Button variant="outline" onClick={() => setStage("cart")}>
                   Back to cart
                 </Button>
-                <Button variant="brand" onClick={placeOrder} disabled={submitting}>
-                  {submitting ? "Placing order…" : `Place order · ${formatMoney(subtotal)}`}
+                <Button
+                  variant="brand"
+                  onClick={placeOrder}
+                  disabled={submitting}
+                >
+                  {submitting
+                    ? "Placing order…"
+                    : `Place order · ${formatMoney(subtotal)}`}
                 </Button>
               </DialogFooter>
             </>
@@ -362,8 +377,12 @@ export function MerchStore({
             <div className="flex flex-col items-center gap-3 py-8 text-center">
               <CheckCircle2 className="h-12 w-12 text-accent-3" />
               <DialogTitle>Order placed!</DialogTitle>
-              <p className="text-sm text-muted-foreground">{confirmation.message}</p>
-              <p className="font-medium">Total: {formatMoney(confirmation.total)}</p>
+              <p className="text-sm text-muted-foreground">
+                {confirmation.message}
+              </p>
+              <p className="font-medium">
+                Total: {formatMoney(confirmation.total)}
+              </p>
               <Button variant="brand" onClick={() => setStage(null)}>
                 Done
               </Button>

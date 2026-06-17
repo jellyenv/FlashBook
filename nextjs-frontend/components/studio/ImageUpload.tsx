@@ -49,7 +49,12 @@ export function ImageUpload({
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop: upload,
-    accept: { "image/jpeg": [], "image/png": [], "image/webp": [], "image/gif": [] },
+    accept: {
+      "image/jpeg": [],
+      "image/png": [],
+      "image/webp": [],
+      "image/gif": [],
+    },
     maxFiles: 1,
     disabled: busy,
   });
@@ -73,9 +78,14 @@ export function ImageUpload({
         />
       ) : (
         <>
-          <UploadCloud className="h-7 w-7 text-muted-foreground" aria-hidden="true" />
+          <UploadCloud
+            className="h-7 w-7 text-muted-foreground"
+            aria-hidden="true"
+          />
           <p className="text-sm text-muted-foreground">{label}</p>
-          <p className="text-xs text-muted-foreground">JPEG, PNG, WebP, GIF · up to 10MB</p>
+          <p className="text-xs text-muted-foreground">
+            JPEG, PNG, WebP, GIF · up to 10MB
+          </p>
         </>
       )}
       {busy && (

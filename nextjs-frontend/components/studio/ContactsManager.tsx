@@ -25,7 +25,12 @@ type Contact = {
 export function ContactsManager({ contacts }: { contacts: Contact[] }) {
   const [pending, start] = useTransition();
   const [q, setQ] = useState("");
-  const [form, setForm] = useState({ name: "", phone: "", email: "", instagram: "" });
+  const [form, setForm] = useState({
+    name: "",
+    phone: "",
+    email: "",
+    instagram: "",
+  });
 
   const filtered = contacts.filter((c) =>
     [c.name, c.email, c.phone, c.instagram]
@@ -92,7 +97,11 @@ export function ContactsManager({ contacts }: { contacts: Contact[] }) {
                     <button
                       aria-label={`Delete ${c.name}`}
                       disabled={pending}
-                      onClick={() => start(async () => void (await deleteContactAction(c.id)))}
+                      onClick={() =>
+                        start(
+                          async () => void (await deleteContactAction(c.id)),
+                        )
+                      }
                       className="text-muted-foreground hover:text-destructive"
                     >
                       <Trash2 className="h-4 w-4" />
@@ -110,21 +119,44 @@ export function ContactsManager({ contacts }: { contacts: Contact[] }) {
           <p className="font-display text-lg">Add contact</p>
           <div>
             <Label htmlFor="n">Name</Label>
-            <Input id="n" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} />
+            <Input
+              id="n"
+              value={form.name}
+              onChange={(e) => setForm({ ...form, name: e.target.value })}
+            />
           </div>
           <div>
             <Label htmlFor="p">Phone</Label>
-            <Input id="p" value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} />
+            <Input
+              id="p"
+              value={form.phone}
+              onChange={(e) => setForm({ ...form, phone: e.target.value })}
+            />
           </div>
           <div>
             <Label htmlFor="e">Email</Label>
-            <Input id="e" type="email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} />
+            <Input
+              id="e"
+              type="email"
+              value={form.email}
+              onChange={(e) => setForm({ ...form, email: e.target.value })}
+            />
           </div>
           <div>
             <Label htmlFor="ig">Instagram</Label>
-            <Input id="ig" value={form.instagram} onChange={(e) => setForm({ ...form, instagram: e.target.value })} placeholder="@handle" />
+            <Input
+              id="ig"
+              value={form.instagram}
+              onChange={(e) => setForm({ ...form, instagram: e.target.value })}
+              placeholder="@handle"
+            />
           </div>
-          <Button variant="brand" className="w-full" onClick={add} disabled={pending}>
+          <Button
+            variant="brand"
+            className="w-full"
+            onClick={add}
+            disabled={pending}
+          >
             Add contact
           </Button>
         </CardContent>

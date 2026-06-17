@@ -33,7 +33,8 @@ export function formatFlashPrice(p: FlashLike): string | null {
   const min = p.price_min_cents;
   const max = p.price_max_cents;
   let base: string | null = null;
-  if (min != null && max != null && max !== min) base = `${dollars(min)}–${dollars(max)}`;
+  if (min != null && max != null && max !== min)
+    base = `${dollars(min)}–${dollars(max)}`;
   else if (min != null) base = dollars(min);
   else if (max != null) base = dollars(max);
   if (!base) return null;

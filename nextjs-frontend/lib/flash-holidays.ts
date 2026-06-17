@@ -11,7 +11,13 @@ const FIXED: { name: string; emoji: string; month: number; day: number }[] = [
   { name: "New Year's", emoji: "✨", month: 1, day: 1 },
 ];
 
-function nextFixed(name: string, emoji: string, month: number, day: number, from: Date) {
+function nextFixed(
+  name: string,
+  emoji: string,
+  month: number,
+  day: number,
+  from: Date,
+) {
   let year = from.getFullYear();
   let d = new Date(year, month - 1, day);
   if (d < from) {
@@ -33,7 +39,10 @@ function nextFridayThe13th(from: Date): FlashHoliday {
 }
 
 /** Flash occasions in the next `withinDays`, soonest first. */
-export function upcomingFlashHolidays(from: Date, withinDays = 75): FlashHoliday[] {
+export function upcomingFlashHolidays(
+  from: Date,
+  withinDays = 75,
+): FlashHoliday[] {
   const horizon = addDays(from, withinDays);
   const all: FlashHoliday[] = [
     ...FIXED.map((f) => nextFixed(f.name, f.emoji, f.month, f.day, from)),

@@ -56,12 +56,16 @@ async def delete_campaign(
     artist: User = Depends(get_clerk_user),
 ):
     campaign = (
-        await db.execute(
-            select(Campaign).where(
-                Campaign.id == campaign_id, Campaign.artist_id == artist.id
+        (
+            await db.execute(
+                select(Campaign).where(
+                    Campaign.id == campaign_id, Campaign.artist_id == artist.id
+                )
             )
         )
-    ).scalars().first()
+        .scalars()
+        .first()
+    )
     if campaign is None:
         raise HTTPException(status_code=404, detail="Campaign not found.")
     await db.delete(campaign)

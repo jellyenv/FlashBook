@@ -1,8 +1,6 @@
 """Identity & tenancy: User (extended), profiles, contacts, assistant grants,
 and the email verification code table."""
 
-from datetime import datetime
-
 from fastapi_users.db import SQLAlchemyBaseUserTableUUID
 from sqlalchemy import (
     Boolean,

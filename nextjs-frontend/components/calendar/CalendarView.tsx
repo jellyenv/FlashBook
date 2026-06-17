@@ -98,13 +98,27 @@ export function CalendarView({
             ))}
           </div>
           <div className="flex items-center gap-1">
-            <Button variant="outline" size="icon" aria-label="Previous" onClick={() => step(-1)}>
+            <Button
+              variant="outline"
+              size="icon"
+              aria-label="Previous"
+              onClick={() => step(-1)}
+            >
               <ChevronLeft className="h-4 w-4" />
             </Button>
-            <Button variant="outline" size="sm" onClick={() => navigate(view, new Date())}>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => navigate(view, new Date())}
+            >
               Today
             </Button>
-            <Button variant="outline" size="icon" aria-label="Next" onClick={() => step(1)}>
+            <Button
+              variant="outline"
+              size="icon"
+              aria-label="Next"
+              onClick={() => step(1)}
+            >
               <ChevronRight className="h-4 w-4" />
             </Button>
           </div>
@@ -112,7 +126,17 @@ export function CalendarView({
         </div>
         <Button
           variant="brand"
-          onClick={() => setNewStart(new Date(anchor.getFullYear(), anchor.getMonth(), anchor.getDate(), 12, 0))}
+          onClick={() =>
+            setNewStart(
+              new Date(
+                anchor.getFullYear(),
+                anchor.getMonth(),
+                anchor.getDate(),
+                12,
+                0,
+              ),
+            )
+          }
         >
           <Plus className="mr-1 h-4 w-4" /> New
         </Button>
@@ -147,7 +171,10 @@ export function CalendarView({
           defaultDepositCents={depositDefaultCents}
         />
       )}
-      <AppointmentDetailDialog appt={detail} onOpenChange={(v) => !v && setDetail(null)} />
+      <AppointmentDetailDialog
+        appt={detail}
+        onOpenChange={(v) => !v && setDetail(null)}
+      />
     </div>
   );
 }
@@ -187,10 +214,15 @@ function TimeGrid({
         {/* day columns */}
         <div className="flex flex-1">
           {days.map((day) => {
-            const dayAppts = appts.filter((a) => isSameDay(parseISO(a.start_at), day));
+            const dayAppts = appts.filter((a) =>
+              isSameDay(parseISO(a.start_at), day),
+            );
             const laid = layoutDay(dayAppts);
             return (
-              <div key={day.toISOString()} className="flex-1 border-r last:border-r-0">
+              <div
+                key={day.toISOString()}
+                className="flex-1 border-r last:border-r-0"
+              >
                 <div
                   className={cn(
                     "sticky top-0 z-10 h-10 border-b bg-card px-2 py-1 text-center",
@@ -200,7 +232,9 @@ function TimeGrid({
                   <div className="text-[11px] uppercase text-muted-foreground">
                     {format(day, "EEE")}
                   </div>
-                  <div className="text-sm font-medium leading-none">{format(day, "d")}</div>
+                  <div className="text-sm font-medium leading-none">
+                    {format(day, "d")}
+                  </div>
                 </div>
                 <div className="relative" style={{ height: gridHeight }}>
                   {/* clickable hour cells */}
@@ -210,7 +244,13 @@ function TimeGrid({
                       aria-label={`Add appointment ${format(day, "MMM d")} ${format(new Date(2000, 0, 1, h), "h a")}`}
                       onClick={() =>
                         onEmptyClick(
-                          new Date(day.getFullYear(), day.getMonth(), day.getDate(), h, 0),
+                          new Date(
+                            day.getFullYear(),
+                            day.getMonth(),
+                            day.getDate(),
+                            h,
+                            0,
+                          ),
                         )
                       }
                       style={{ height: HOUR_PX }}
@@ -240,7 +280,9 @@ function TimeGrid({
                           {appt.client_name ?? "Client"}
                         </span>
                         {appt.subject && (
-                          <span className="block truncate opacity-80">{appt.subject}</span>
+                          <span className="block truncate opacity-80">
+                            {appt.subject}
+                          </span>
                         )}
                       </button>
                     );
@@ -288,7 +330,8 @@ function MonthGrid({
               onClick={() => onPickDay(day)}
               className={cn(
                 "min-h-24 border-b border-r p-1.5 text-left align-top hover:bg-brand-soft/30",
-                !isSameMonth(day, anchor) && "bg-muted/30 text-muted-foreground",
+                !isSameMonth(day, anchor) &&
+                  "bg-muted/30 text-muted-foreground",
               )}
             >
               <div
@@ -308,7 +351,8 @@ function MonthGrid({
                       STATUS_STYLES[a.status] ?? "bg-muted",
                     )}
                   >
-                    {format(parseISO(a.start_at), "p")} {a.client_name ?? "Client"}
+                    {format(parseISO(a.start_at), "p")}{" "}
+                    {a.client_name ?? "Client"}
                   </div>
                 ))}
                 {dayAppts.length > 3 && (

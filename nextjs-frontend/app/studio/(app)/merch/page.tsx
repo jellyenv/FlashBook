@@ -8,8 +8,8 @@ export default async function MerchPage() {
       <div>
         <h1 className="font-display text-3xl">Merchandise shop</h1>
         <p className="text-muted-foreground">
-          Sell prints and merch from your booking page. Add products, then customers
-          can add to cart and check out.
+          Sell prints and merch from your booking page. Add products, then
+          customers can add to cart and check out.
         </p>
       </div>
       <MerchManager products={products} />

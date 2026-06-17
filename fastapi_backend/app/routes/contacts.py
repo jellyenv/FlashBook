@@ -48,12 +48,16 @@ async def update_contact(
     artist: User = Depends(get_clerk_user),
 ):
     contact = (
-        await db.execute(
-            select(Contact).where(
-                Contact.id == contact_id, Contact.artist_id == artist.id
+        (
+            await db.execute(
+                select(Contact).where(
+                    Contact.id == contact_id, Contact.artist_id == artist.id
+                )
             )
         )
-    ).scalars().first()
+        .scalars()
+        .first()
+    )
     if contact is None:
         raise HTTPException(status_code=404, detail="Contact not found.")
     for key, value in payload.model_dump(mode="json", exclude_unset=True).items():
@@ -70,12 +74,16 @@ async def delete_contact(
     artist: User = Depends(get_clerk_user),
 ):
     contact = (
-        await db.execute(
-            select(Contact).where(
-                Contact.id == contact_id, Contact.artist_id == artist.id
+        (
+            await db.execute(
+                select(Contact).where(
+                    Contact.id == contact_id, Contact.artist_id == artist.id
+                )
             )
         )
-    ).scalars().first()
+        .scalars()
+        .first()
+    )
     if contact is None:
         raise HTTPException(status_code=404, detail="Contact not found.")
     await db.delete(contact)

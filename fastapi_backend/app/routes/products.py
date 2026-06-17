@@ -16,12 +16,16 @@ router = APIRouter()
 
 async def _owned(db: AsyncSession, product_id: UUID, artist_id) -> Product:
     product = (
-        await db.execute(
-            select(Product).where(
-                Product.id == product_id, Product.artist_id == artist_id
+        (
+            await db.execute(
+                select(Product).where(
+                    Product.id == product_id, Product.artist_id == artist_id
+                )
             )
         )
-    ).scalars().first()
+        .scalars()
+        .first()
+    )
     if product is None:
         raise HTTPException(status_code=404, detail="Product not found.")
     return product

@@ -14,10 +14,16 @@ router = APIRouter()
 
 async def _get_or_create(db: AsyncSession, artist_id) -> BookingPageLayout:
     layout = (
-        await db.execute(
-            select(BookingPageLayout).where(BookingPageLayout.artist_id == artist_id)
+        (
+            await db.execute(
+                select(BookingPageLayout).where(
+                    BookingPageLayout.artist_id == artist_id
+                )
+            )
         )
-    ).scalars().first()
+        .scalars()
+        .first()
+    )
     if layout is None:
         layout = BookingPageLayout(artist_id=artist_id, published=False)
         db.add(layout)

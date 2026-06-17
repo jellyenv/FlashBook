@@ -9,7 +9,10 @@ export const MODULE_META: Record<
   book: { label: "Book Now", description: "Calendar + booking form" },
   about: { label: "About Me", description: "Your bio & location" },
   portfolio: { label: "Portfolio", description: "Showcase your best work" },
-  flash: { label: "Available Flash", description: "Flash pieces clients can book" },
+  flash: {
+    label: "Available Flash",
+    description: "Flash pieces clients can book",
+  },
   merch: { label: "Merch", description: "Your shop & checkout" },
 };
 

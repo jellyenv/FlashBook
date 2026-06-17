@@ -3,7 +3,7 @@
 from datetime import date as date_cls
 from uuid import UUID
 
-from fastapi import APIRouter, Depends, HTTPException, Query, status
+from fastapi import APIRouter, Depends, HTTPException, Query
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -40,7 +40,9 @@ async def create_rule(
     artist: User = Depends(get_clerk_user),
 ):
     if payload.end_time <= payload.start_time:
-        raise HTTPException(status_code=400, detail="end_time must be after start_time.")
+        raise HTTPException(
+            status_code=400, detail="end_time must be after start_time."
+        )
     rule = AvailabilityRule(**payload.model_dump(), artist_id=artist.id)
     db.add(rule)
     await db.commit()
@@ -55,13 +57,17 @@ async def delete_rule(
     artist: User = Depends(get_clerk_user),
 ):
     rule = (
-        await db.execute(
-            select(AvailabilityRule).where(
-                AvailabilityRule.id == rule_id,
-                AvailabilityRule.artist_id == artist.id,
+        (
+            await db.execute(
+                select(AvailabilityRule).where(
+                    AvailabilityRule.id == rule_id,
+                    AvailabilityRule.artist_id == artist.id,
+                )
             )
         )
-    ).scalars().first()
+        .scalars()
+        .first()
+    )
     if rule is None:
         raise HTTPException(status_code=404, detail="Rule not found.")
     await db.delete(rule)
@@ -102,13 +108,17 @@ async def delete_exception(
     artist: User = Depends(get_clerk_user),
 ):
     exc = (
-        await db.execute(
-            select(AvailabilityException).where(
-                AvailabilityException.id == exception_id,
-                AvailabilityException.artist_id == artist.id,
+        (
+            await db.execute(
+                select(AvailabilityException).where(
+                    AvailabilityException.id == exception_id,
+                    AvailabilityException.artist_id == artist.id,
+                )
             )
         )
-    ).scalars().first()
+        .scalars()
+        .first()
+    )
     if exc is None:
         raise HTTPException(status_code=404, detail="Exception not found.")
     await db.delete(exc)

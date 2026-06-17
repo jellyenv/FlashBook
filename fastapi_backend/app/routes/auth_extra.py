@@ -38,7 +38,12 @@ from app.services.security import (
     verify_totp,
 )
 from app.services.verification import confirm_email_code, issue_email_code
-from app.users import UserManager, current_active_user, get_jwt_strategy, get_user_manager
+from app.users import (
+    UserManager,
+    current_active_user,
+    get_jwt_strategy,
+    get_user_manager,
+)
 
 router = APIRouter(tags=["auth"])
 
@@ -129,8 +134,10 @@ async def two_factor_login(
             detail="Expired or invalid 2FA session. Please log in again.",
         )
     user = (
-        await session.execute(select(User).where(User.id == uuid.UUID(user_id)))
-    ).scalars().first()
+        (await session.execute(select(User).where(User.id == uuid.UUID(user_id))))
+        .scalars()
+        .first()
+    )
     if user is None or not user.totp_enabled or not user.totp_secret:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST, detail="Invalid 2FA session."
@@ -179,8 +186,10 @@ async def disable_totp(
     user: User = Depends(current_active_user),
     session: AsyncSession = Depends(get_async_session),
 ):
-    if not user.totp_enabled or not user.totp_secret or not verify_totp(
-        user.totp_secret, payload.code
+    if (
+        not user.totp_enabled
+        or not user.totp_secret
+        or not verify_totp(user.totp_secret, payload.code)
     ):
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,

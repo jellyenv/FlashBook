@@ -32,7 +32,10 @@ export const DAY_END_HOUR = 22; // exclusive end of grid
 export const HOUR_PX = 56;
 
 /** Visible [start, end) range for a view anchored on `date`. */
-export function viewRange(view: CalView, date: Date): { start: Date; end: Date } {
+export function viewRange(
+  view: CalView,
+  date: Date,
+): { start: Date; end: Date } {
   if (view === "day") {
     return { start: startOfDay(date), end: addDays(startOfDay(date), 1) };
   }
@@ -73,8 +76,13 @@ export function layoutDay(appts: Appt[]): {
   const sorted = [...appts].sort(
     (a, b) => parseISO(a.start_at).getTime() - parseISO(b.start_at).getTime(),
   );
-  const out: { appt: Appt; col: number; cols: number; top: number; height: number }[] =
-    [];
+  const out: {
+    appt: Appt;
+    col: number;
+    cols: number;
+    top: number;
+    height: number;
+  }[] = [];
   let cluster: typeof out = [];
   let clusterEnd = 0;
 

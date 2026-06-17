@@ -62,7 +62,9 @@ export function CampaignManager({ campaigns }: { campaigns: Campaign[] }) {
       <Card className="fb-card h-fit">
         <CardHeader>
           <CardTitle className="font-display">New campaign</CardTitle>
-          <CardDescription>Saved as a draft until sending is enabled</CardDescription>
+          <CardDescription>
+            Saved as a draft until sending is enabled
+          </CardDescription>
         </CardHeader>
         <CardContent className="space-y-3">
           <div>
@@ -104,7 +106,12 @@ export function CampaignManager({ campaigns }: { campaigns: Campaign[] }) {
               placeholder="https://…/book/your-slug"
             />
           </div>
-          <Button variant="brand" className="w-full" onClick={save} disabled={pending}>
+          <Button
+            variant="brand"
+            className="w-full"
+            onClick={save}
+            disabled={pending}
+          >
             {pending ? "Saving…" : "Save draft"}
           </Button>
         </CardContent>
@@ -145,7 +152,9 @@ export function CampaignManager({ campaigns }: { campaigns: Campaign[] }) {
                       aria-label="Delete campaign"
                       disabled={pending}
                       onClick={() =>
-                        start(async () => void (await deleteCampaignAction(c.id)))
+                        start(
+                          async () => void (await deleteCampaignAction(c.id)),
+                        )
                       }
                       className="text-muted-foreground hover:text-destructive"
                     >

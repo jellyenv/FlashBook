@@ -37,7 +37,11 @@ const CATEGORIES = [
       { href: "/studio/portfolio", label: "Portfolio", icon: ImageIcon },
       { href: "/studio/flash", label: "Flash Editor", icon: Sparkles },
       { href: "/studio/merch", label: "Merchandise Shop", icon: Store },
-      { href: "/studio/booking-page", label: "Booking Page Editor", icon: LayoutTemplate },
+      {
+        href: "/studio/booking-page",
+        label: "Booking Page Editor",
+        icon: LayoutTemplate,
+      },
     ],
   },
   {
@@ -45,13 +49,23 @@ const CATEGORIES = [
     items: [
       { href: "/studio/membership", label: "Membership", icon: CreditCard },
       { href: "/studio/profile", label: "Artist Profile", icon: User },
-      { href: "/studio/security", label: "Account & Security", icon: ShieldCheck },
+      {
+        href: "/studio/security",
+        label: "Account & Security",
+        icon: ShieldCheck,
+      },
     ],
   },
 ];
 
 /** A tattoo machine that physically sweeps across and draws the line on open. */
-function MachineIcon({ open, reduce }: { open: boolean; reduce: boolean | null }) {
+function MachineIcon({
+  open,
+  reduce,
+}: {
+  open: boolean;
+  reduce: boolean | null;
+}) {
   const sweep = reduce ? 0 : 26;
   const transition = reduce
     ? { duration: 0 }
@@ -126,7 +140,8 @@ export function PenNav() {
   useEffect(() => {
     if (!open) return;
     function onDoc(e: MouseEvent) {
-      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
+      if (ref.current && !ref.current.contains(e.target as Node))
+        setOpen(false);
     }
     function onKey(e: KeyboardEvent) {
       if (e.key === "Escape") setOpen(false);

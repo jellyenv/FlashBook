@@ -127,7 +127,9 @@ export function FlashManager({ pieces }: { pieces: FlashPiece[] }) {
           <div className="flex items-center justify-between rounded-md border p-3">
             <div>
               <Label htmlFor="ask">Ask about this piece</Label>
-              <p className="text-xs text-muted-foreground">Hide price, invite a consult</p>
+              <p className="text-xs text-muted-foreground">
+                Hide price, invite a consult
+              </p>
             </div>
             <Switch
               id="ask"
@@ -270,16 +272,23 @@ export function FlashManager({ pieces }: { pieces: FlashPiece[] }) {
                     </button>
                   </div>
                   <div className="space-y-1 p-2">
-                    {p.title && <p className="truncate text-sm font-medium">{p.title}</p>}
+                    {p.title && (
+                      <p className="truncate text-sm font-medium">{p.title}</p>
+                    )}
                     <div className="flex flex-wrap items-center gap-1.5 text-xs">
                       {p.ask_about ? (
-                        <Badge variant="secondary" className="bg-brand-soft text-brand">
+                        <Badge
+                          variant="secondary"
+                          className="bg-brand-soft text-brand"
+                        >
                           Ask about this piece
                         </Badge>
                       ) : (
                         price && <span className="font-medium">{price}</span>
                       )}
-                      {size && <span className="text-muted-foreground">· {size}</span>}
+                      {size && (
+                        <span className="text-muted-foreground">· {size}</span>
+                      )}
                     </div>
                     <Button
                       variant="outline"

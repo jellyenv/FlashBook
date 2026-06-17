@@ -22,7 +22,10 @@ import {
 
 import { FlashBookLogo } from "@/components/brand/FlashBookLogo";
 import { AddNewMenu } from "@/components/studio/AddNewMenu";
-import { RevenueChart, type RevenuePoint } from "@/components/studio/RevenueChart";
+import {
+  RevenueChart,
+  type RevenuePoint,
+} from "@/components/studio/RevenueChart";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -129,7 +132,10 @@ export default async function StudioHomePage() {
             ) : (
               <ul className="divide-y">
                 {todays.map((a) => (
-                  <li key={a.id} className="flex items-center justify-between py-3">
+                  <li
+                    key={a.id}
+                    className="flex items-center justify-between py-3"
+                  >
                     <div>
                       <p className="font-medium">{a.client_name ?? "Client"}</p>
                       <p className="text-sm text-muted-foreground">
@@ -157,16 +163,21 @@ export default async function StudioHomePage() {
           </CardHeader>
           <CardContent className="space-y-3">
             {reviewQueue.length === 0 ? (
-              <p className="text-sm text-muted-foreground">You&apos;re all caught up. 🎉</p>
+              <p className="text-sm text-muted-foreground">
+                You&apos;re all caught up. 🎉
+              </p>
             ) : (
               reviewQueue.map((a) => (
                 <div
                   key={a.id}
                   className="rounded-[var(--radius)] border bg-brand-soft/40 p-3"
                 >
-                  <p className="text-sm font-medium">{a.client_name ?? "New request"}</p>
+                  <p className="text-sm font-medium">
+                    {a.client_name ?? "New request"}
+                  </p>
                   <p className="text-xs text-muted-foreground">
-                    {a.subject ?? "Tattoo"} · {format(parseISO(a.start_at), "MMM d, p")}
+                    {a.subject ?? "Tattoo"} ·{" "}
+                    {format(parseISO(a.start_at), "MMM d, p")}
                   </p>
                   <Button asChild size="sm" variant="brand" className="mt-2">
                     <Link href={`/studio/calendar?appointment=${a.id}`}>
@@ -203,9 +214,21 @@ export default async function StudioHomePage() {
           <CardContent className="space-y-2">
             <QuickAdd href="/studio/merch" icon={Store} label="Add merch" />
             <QuickAdd href="/studio/flash" icon={Sparkles} label="Add flash" />
-            <QuickAdd href="/studio/portfolio" icon={ImageIcon} label="Add to portfolio" />
-            <QuickAdd href="/studio/campaigns" icon={Send} label="Add campaign" />
-            <QuickAdd href="/studio/booking-page" icon={Megaphone} label="Add announcement" />
+            <QuickAdd
+              href="/studio/portfolio"
+              icon={ImageIcon}
+              label="Add to portfolio"
+            />
+            <QuickAdd
+              href="/studio/campaigns"
+              icon={Send}
+              label="Add campaign"
+            />
+            <QuickAdd
+              href="/studio/booking-page"
+              icon={Megaphone}
+              label="Add announcement"
+            />
           </CardContent>
         </Card>
       </div>

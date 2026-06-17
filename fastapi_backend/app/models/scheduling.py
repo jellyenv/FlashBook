@@ -67,9 +67,7 @@ class ArtistGroup(TimestampMixin, Base):
     members = relationship(
         "ArtistGroupMember", back_populates="group", cascade="all, delete-orphan"
     )
-    booths = relationship(
-        "Booth", back_populates="group", cascade="all, delete-orphan"
-    )
+    booths = relationship("Booth", back_populates="group", cascade="all, delete-orphan")
 
 
 class ArtistGroupMember(TimestampMixin, Base):
@@ -77,7 +75,9 @@ class ArtistGroupMember(TimestampMixin, Base):
     __table_args__ = (UniqueConstraint("group_id", "artist_id"),)
 
     id = uuid_pk()
-    group_id = Column(UUID(as_uuid=True), ForeignKey("artist_groups.id"), nullable=False)
+    group_id = Column(
+        UUID(as_uuid=True), ForeignKey("artist_groups.id"), nullable=False
+    )
     artist_id = Column(UUID(as_uuid=True), ForeignKey("user.id"), nullable=False)
     color = Column(String, nullable=True)  # hex, for legible side-by-side calendars
     avatar_url = Column(String, nullable=True)

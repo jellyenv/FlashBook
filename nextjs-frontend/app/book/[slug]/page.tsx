@@ -20,7 +20,10 @@ import { MerchStore } from "@/components/booking/MerchStore";
 import { ReportIssueButton } from "@/components/ReportIssueButton";
 import { eventLabel, formatFlashPrice, formatFlashSize } from "@/lib/flash";
 import { FlashBookLogo } from "@/components/brand/FlashBookLogo";
-import { BookingFlow, type DayAvailability } from "@/components/booking/BookingFlow";
+import {
+  BookingFlow,
+  type DayAvailability,
+} from "@/components/booking/BookingFlow";
 import { Button } from "@/components/ui/button";
 import { DEFAULT_MODULES, type ModuleKey } from "@/lib/booking-modules";
 import { themeToStyle } from "@/lib/theme";
@@ -47,7 +50,10 @@ export default async function PublicBookingPage({
   const availability: DayAvailability[] = await Promise.all(
     dates.map(async (d) => {
       const dateStr = format(d, "yyyy-MM-dd");
-      const { data } = await getPublicSlots({ path: { slug }, query: { date: dateStr } });
+      const { data } = await getPublicSlots({
+        path: { slug },
+        query: { date: dateStr },
+      });
       return { date: dateStr, slots: data ?? [] };
     }),
   );
@@ -81,7 +87,9 @@ export default async function PublicBookingPage({
       <div className="rounded-[var(--radius)] border bg-card/60 p-6 text-center">
         <h2 className="mb-2 font-display text-2xl">About</h2>
         {artist.bio ? (
-          <p className="mx-auto max-w-2xl text-muted-foreground">{artist.bio}</p>
+          <p className="mx-auto max-w-2xl text-muted-foreground">
+            {artist.bio}
+          </p>
         ) : (
           <p className="text-sm text-muted-foreground">More coming soon.</p>
         )}
@@ -169,14 +177,26 @@ export default async function PublicBookingPage({
                     )}
                     <div className="text-xs">
                       {price && <span className="font-medium">{price}</span>}
-                      {size && <span className="text-muted-foreground"> · {size}</span>}
+                      {size && (
+                        <span className="text-muted-foreground"> · {size}</span>
+                      )}
                     </div>
                     {f.ask_about && !claimed ? (
-                      <Button asChild size="sm" variant="brand" className="mt-1 w-full">
+                      <Button
+                        asChild
+                        size="sm"
+                        variant="brand"
+                        className="mt-1 w-full"
+                      >
                         <a href="#book">Ask about this piece</a>
                       </Button>
                     ) : !claimed ? (
-                      <Button asChild size="sm" variant="outline" className="mt-1 w-full">
+                      <Button
+                        asChild
+                        size="sm"
+                        variant="outline"
+                        className="mt-1 w-full"
+                      >
                         <a href="#book">Book this</a>
                       </Button>
                     ) : null}
@@ -214,7 +234,11 @@ export default async function PublicBookingPage({
             {ordered.map(({ key }) => {
               const { label, icon: Icon } = NAV[key];
               return (
-                <a key={key} href={`#${key}`} className="text-muted-foreground hover:text-brand">
+                <a
+                  key={key}
+                  href={`#${key}`}
+                  className="text-muted-foreground hover:text-brand"
+                >
                   <Icon className="mr-1 inline h-4 w-4" />
                   {label}
                 </a>

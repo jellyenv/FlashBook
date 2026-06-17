@@ -120,7 +120,12 @@ export function MerchManager({ products }: { products: Product[] }) {
               />
             </div>
           </div>
-          <Button variant="brand" className="w-full" onClick={add} disabled={pending}>
+          <Button
+            variant="brand"
+            className="w-full"
+            onClick={add}
+            disabled={pending}
+          >
             {pending ? "Adding…" : "Add product"}
           </Button>
         </CardContent>
@@ -179,7 +184,9 @@ export function MerchManager({ products }: { products: Product[] }) {
                         aria-label="Delete product"
                         disabled={pending}
                         onClick={() =>
-                          start(async () => void (await deleteProductAction(p.id)))
+                          start(
+                            async () => void (await deleteProductAction(p.id)),
+                          )
                         }
                         className="text-muted-foreground hover:text-destructive"
                       >

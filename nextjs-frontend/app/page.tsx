@@ -36,8 +36,9 @@ export default function Home() {
           Boutique booking, beautifully done.
         </h1>
         <p className="mx-auto mt-6 max-w-xl text-lg text-muted-foreground">
-          FlashBook gives tattoo artists a clean calendar, a stunning booking page,
-          flash & merch storefronts, and built-in messaging — all in one place.
+          FlashBook gives tattoo artists a clean calendar, a stunning booking
+          page, flash & merch storefronts, and built-in messaging — all in one
+          place.
         </p>
         <div className="mt-8 flex flex-wrap justify-center gap-3">
           <Button asChild variant="brand" size="lg">
@@ -51,10 +52,26 @@ export default function Home() {
 
       <section className="mx-auto grid max-w-4xl gap-6 px-6 pb-24 sm:grid-cols-2 lg:grid-cols-4">
         {[
-          { icon: CalendarHeart, title: "Smart calendar", body: "Day, week & month views with hour-by-hour control." },
-          { icon: Sparkles, title: "Your flash & merch", body: "Showcase available pieces and sell merch with checkout." },
-          { icon: Palette, title: "Make it yours", body: "Custom colors, fonts, and button shapes that save." },
-          { icon: ShieldCheck, title: "Safe & sound", body: "2FA, email verification, and secure payments." },
+          {
+            icon: CalendarHeart,
+            title: "Smart calendar",
+            body: "Day, week & month views with hour-by-hour control.",
+          },
+          {
+            icon: Sparkles,
+            title: "Your flash & merch",
+            body: "Showcase available pieces and sell merch with checkout.",
+          },
+          {
+            icon: Palette,
+            title: "Make it yours",
+            body: "Custom colors, fonts, and button shapes that save.",
+          },
+          {
+            icon: ShieldCheck,
+            title: "Safe & sound",
+            body: "2FA, email verification, and secure payments.",
+          },
         ].map(({ icon: Icon, title, body }) => (
           <div key={title} className="fb-card p-5">
             <Icon className="mb-3 h-6 w-6 text-brand" />

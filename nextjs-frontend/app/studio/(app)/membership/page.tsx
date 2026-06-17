@@ -44,7 +44,8 @@ export default function MembershipPage() {
       <div>
         <h1 className="font-display text-3xl">Membership</h1>
         <p className="text-muted-foreground">
-          One simple plan for everything FlashBook. Pick monthly or save 20% annually.
+          One simple plan for everything FlashBook. Pick monthly or save 20%
+          annually.
         </p>
       </div>
 

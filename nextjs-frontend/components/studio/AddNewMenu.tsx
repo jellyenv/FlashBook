@@ -45,7 +45,10 @@ export function AddNewMenu({
         <DropdownMenuSeparator />
         {ITEMS.map(({ href, label, icon: Icon }) => (
           <DropdownMenuItem key={label} asChild>
-            <Link href={href} className="flex cursor-pointer items-center gap-2.5">
+            <Link
+              href={href}
+              className="flex cursor-pointer items-center gap-2.5"
+            >
               <Icon className="h-4 w-4 text-brand" aria-hidden="true" />
               {label}
             </Link>
