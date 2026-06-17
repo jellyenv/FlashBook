@@ -1,9 +1,28 @@
+import logging
 from pathlib import Path
 import urllib.parse
 
 from fastapi_mail import FastMail, MessageSchema, ConnectionConfig, MessageType
 from .config import settings
 from .models import User
+
+logger = logging.getLogger(__name__)
+
+
+def mail_configured() -> bool:
+    """True when the minimum SMTP settings needed to actually send mail are set.
+
+    Without this guard, transactional flows (e.g. registration) would crash in
+    dev/CI where no SMTP server is configured, because fastapi_mail's
+    ConnectionConfig requires non-null MAIL_* values.
+    """
+    if not (settings.MAIL_SERVER and settings.MAIL_PORT and settings.MAIL_FROM):
+        return False
+    if settings.USE_CREDENTIALS and not (
+        settings.MAIL_USERNAME and settings.MAIL_PASSWORD
+    ):
+        return False
+    return True
 
 
 def get_email_config():
@@ -24,6 +43,11 @@ def get_email_config():
 
 
 async def send_reset_password_email(user: User, token: str):
+    if not mail_configured():
+        logger.warning(
+            "Mail not configured; skipping password reset email to %s", user.email
+        )
+        return
     conf = get_email_config()
     email = user.email
     base_url = f"{settings.FRONTEND_URL}/password-recovery/confirm?"
@@ -42,6 +66,11 @@ async def send_reset_password_email(user: User, token: str):
 
 
 async def send_verification_code_email(email: str, code: str):
+    if not mail_configured():
+        logger.warning(
+            "Mail not configured; skipping verification code email to %s", email
+        )
+        return
     conf = get_email_config()
     message = MessageSchema(
         subject="Your FlashBook verification code",
